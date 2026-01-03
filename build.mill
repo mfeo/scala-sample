@@ -50,3 +50,6 @@ object `11-option-try` extends LearningModule
 
 // 章節 12: Either 與異常處理
 object `12-error-handling` extends LearningModule
+
+// 章節 13: 函數式程式設計
+object `13-functional-programming` extends LearningModule
