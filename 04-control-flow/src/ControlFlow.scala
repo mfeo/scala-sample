@@ -71,13 +71,14 @@ def example2(): Unit =
     println(s"  計數: $count")
     count += 1
 
-  // do-while 迴圈：先執行再檢查
+  // do-while 迴圈：先執行再檢查（使用大括號語法）
   println("\ndo-while 迴圈（計數 1 到 3）:")
   var num = 1
-  do
+  while
     println(s"  計數: $num")
     num += 1
-  while num <= 3
+    num <= 3
+  do ()
 
   println()
 
