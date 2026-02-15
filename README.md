@@ -99,6 +99,11 @@ mill clean
 15. **15-advanced-types** - 進階型別系統 (Enum, Union Types)
 16. **16-concurrency** - 並行程式設計 (Future/Promise)
 
+### 階段六：進階架構與現代語法（第 17-19 章）
+17. **17-type-system-mastery** - 型別系統精通 (Variance, Abstract Types)
+18. **18-architecture-patterns** - 架構設計模式 (Self-types, Export)
+19. **19-modern-syntax-safety** - 現代語法與安全 (Multiversal Equality, Inline)
+
 ## 章節概覽
 
 | 章節 | 主題 | 核心概念 | 難度 |
@@ -119,6 +124,9 @@ mill clean
 | 14 | Contextual Abstractions | Given/Using、Extension | ⭐⭐⭐⭐⭐ |
 | 15 | Advanced Types | Enum、Union/Intersection | ⭐⭐⭐⭐⭐ |
 | 16 | Concurrency | Future、Promise | ⭐⭐⭐⭐ |
+| 17 | Type System Mastery | Variance、Abstract Types | ⭐⭐⭐⭐⭐ |
+| 18 | Architecture Patterns | Self-types、Export Clauses | ⭐⭐⭐⭐⭐ |
+| 19 | Modern Syntax & Safety | Multiversal Equality、Inline | ⭐⭐⭐⭐⭐ |
 
 ## 與 Go 的對應關係
 
@@ -207,8 +215,10 @@ scala-sample/
 │   └── test/src/
 │       └── OptionTryTest.scala
 ├── 12-error-handling/
-│   └── src/
-│       └── ErrorHandling.scala
+│   ├── src/
+│   │   └── ErrorHandling.scala
+│   └── test/src/
+│       └── ErrorHandlingTest.scala
 ├── 13-functional-programming/
 │   └── src/
 │       └── FunctionalProgramming.scala
@@ -218,9 +228,24 @@ scala-sample/
 ├── 15-advanced-types/
 │   └── src/
 │       └── AdvancedTypes.scala
-└── 16-concurrency/
-    └── src/
-        └── Concurrency.scala
+├── 16-concurrency/
+│   └── src/
+│       └── Concurrency.scala
+├── 17-type-system-mastery/
+│   ├── src/
+│   │   └── TypeSystemMastery.scala
+│   └── test/src/
+│       └── TypeSystemMasteryTest.scala
+├── 18-architecture-patterns/
+│   ├── src/
+│   │   └── ArchitecturePatterns.scala
+│   └── test/src/
+│       └── ArchitecturePatternsTest.scala
+└── 19-modern-syntax-safety/
+    ├── src/
+        └── ModernSyntaxSafety.scala
+    └── test/src/
+        └── ModernSyntaxSafetyTest.scala
 ```
 
 ## 學習建議

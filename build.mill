@@ -62,3 +62,12 @@ object `15-advanced-types` extends LearningModule
 
 // 章節 16: 並行程式設計
 object `16-concurrency` extends LearningModule
+
+// 章節 17: 型別系統精通
+object `17-type-system-mastery` extends LearningModule
+
+// 章節 18: 架構設計模式
+object `18-architecture-patterns` extends LearningModule
+
+// 章節 19: 現代語法與安全
+object `19-modern-syntax-safety` extends LearningModule
