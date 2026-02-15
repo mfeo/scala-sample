@@ -56,7 +56,10 @@ def example1(): Unit =
       if ord.compare(x, y) >= 0 then x else y
 
   // 使用 (兩者呼叫方式在客戶端看起來很像，都是自動推斷)
+  import Scala2Style.intOrd
   println(s"Scala 2 max: ${Scala2Style.max(10, 20)}")
+
+  import Scala3Style.intOrd
   println(s"Scala 3 max: ${Scala3Style.max(10, 20)}")
 
   println()

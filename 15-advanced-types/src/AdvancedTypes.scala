@@ -140,6 +140,9 @@ def example3(): Unit =
  *
  * 提供零成本的抽象：在編譯期區分型別，執行期無包裝開銷。
  */
+// Value Class 必須定義在頂層
+case class LogIDSc2(val id: String) extends AnyVal
+
 def example4(): Unit =
   println("--- 範例 4: Opaque Types vs Value Classes ---")
 
@@ -147,8 +150,7 @@ def example4(): Unit =
   // Scala 2 風格 (Value Class)
   // ==========================================
   // 繼承 AnyVal 來避免執行期分配物件，但有時仍會發生裝箱 (boxing)
-  case class LogIDSc2(val id: String) extends AnyVal
-
+  
   val id2 = LogIDSc2("user-123")
   println(s"Scala 2 Value Class: $id2")
 
