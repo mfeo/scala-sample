@@ -1,11 +1,11 @@
 # Scala 學習範例專案
 
-這是一個針對 Scala 初學者設計的學習專案，通過 12 個獨立章節循序漸進地學習 Scala 程式語言。本專案參考了 Go 語言學習專案的結構，重新設計以充分展現 Scala 的特色與強大功能。
+這是一個針對 Scala 初學者設計的學習專案，通過 16 個獨立章節循序漸進地學習 Scala 程式語言。本專案參考了 Go 語言學習專案的結構，重新設計以充分展現 Scala 的特色與強大功能。
 
 ## 專案特色
 
 - ✅ 使用 Mill 建置工具（高效能、易於使用）
-- ✅ 12 個獨立章節，每個都可單獨編譯執行
+- ✅ 16 個獨立章節，每個都可單獨編譯執行
 - ✅ 大量繁體中文註解，適合華語學習者
 - ✅ 涵蓋 Scala 核心概念與最佳實踐
 - ✅ 使用 Scala 3 最新語法
@@ -88,10 +88,16 @@ mill clean
 8. **08-case-class** - 資料類別
 9. **09-trait-object** - 抽象與混入
 
-### 階段四：進階主題（第 10-12 章）
+### 階段四：進階主題與函數式編程（第 10-13 章）
 10. **10-pattern-matching** - 進階模式匹配
 11. **11-option-try** - 安全的空值處理
 12. **12-error-handling** - 錯誤處理策略
+13. **13-functional-programming** - 函數式程式設計核心
+
+### 階段五：Scala 3 新特性與並行（第 14-16 章）
+14. **14-contextual-abstractions** - 上下文抽象 (Given/Using)
+15. **15-advanced-types** - 進階型別系統 (Enum, Union Types)
+16. **16-concurrency** - 並行程式設計 (Future/Promise)
 
 ## 章節概覽
 
@@ -109,6 +115,10 @@ mill clean
 | 10 | Pattern Matching | 進階模式匹配 | ⭐⭐⭐ |
 | 11 | Option & Try | Option/Try monad | ⭐⭐⭐⭐ |
 | 12 | Error Handling | Either、異常處理 | ⭐⭐⭐⭐ |
+| 13 | Functional Programming | 純函式、柯里化 | ⭐⭐⭐⭐ |
+| 14 | Contextual Abstractions | Given/Using、Extension | ⭐⭐⭐⭐⭐ |
+| 15 | Advanced Types | Enum、Union/Intersection | ⭐⭐⭐⭐⭐ |
+| 16 | Concurrency | Future、Promise | ⭐⭐⭐⭐ |
 
 ## 與 Go 的對應關係
 
@@ -196,9 +206,21 @@ scala-sample/
 │   │   └── OptionTry.scala
 │   └── test/src/
 │       └── OptionTryTest.scala
-└── 12-error-handling/
+├── 12-error-handling/
+│   └── src/
+│       └── ErrorHandling.scala
+├── 13-functional-programming/
+│   └── src/
+│       └── FunctionalProgramming.scala
+├── 14-contextual-abstractions/
+│   └── src/
+│       └── ContextualAbstractions.scala
+├── 15-advanced-types/
+│   └── src/
+│       └── AdvancedTypes.scala
+└── 16-concurrency/
     └── src/
-        └── ErrorHandling.scala
+        └── Concurrency.scala
 ```
 
 ## 學習建議

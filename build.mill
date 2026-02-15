@@ -53,3 +53,12 @@ object `12-error-handling` extends LearningModule
 
 // 章節 13: 函數式程式設計
 object `13-functional-programming` extends LearningModule
+
+// 章節 14: 上下文抽象
+object `14-contextual-abstractions` extends LearningModule
+
+// 章節 15: 進階型別系統
+object `15-advanced-types` extends LearningModule
+
+// 章節 16: 並行程式設計
+object `16-concurrency` extends LearningModule
