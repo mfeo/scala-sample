@@ -71,3 +71,6 @@ object `18-architecture-patterns` extends LearningModule
 
 // 章節 19: 現代語法與安全
 object `19-modern-syntax-safety` extends LearningModule
+
+// 章節 20: 元程式設計 (Metaprogramming) - Scala 3 (Modern)
+object `20-metaprogramming` extends LearningModule

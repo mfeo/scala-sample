@@ -104,6 +104,9 @@ mill clean
 18. **18-architecture-patterns** - 架構設計模式 (Self-types, Export)
 19. **19-modern-syntax-safety** - 現代語法與安全 (Multiversal Equality, Inline)
 
+### 階段七：元程式設計（第 20 章）
+20. **20-metaprogramming** - 元程式設計 (Macros, Quotes, Splices)
+
 ## 章節概覽
 
 | 章節 | 主題 | 核心概念 | 難度 |
@@ -127,6 +130,7 @@ mill clean
 | 17 | Type System Mastery | Variance、Abstract Types | ⭐⭐⭐⭐⭐ |
 | 18 | Architecture Patterns | Self-types、Export Clauses | ⭐⭐⭐⭐⭐ |
 | 19 | Modern Syntax & Safety | Multiversal Equality、Inline | ⭐⭐⭐⭐⭐ |
+| 20 | Metaprogramming | Macros、Quotes、Splices | ⭐⭐⭐⭐⭐ |
 
 ## 與 Go 的對應關係
 
@@ -241,11 +245,15 @@ scala-sample/
 │   │   └── ArchitecturePatterns.scala
 │   └── test/src/
 │       └── ArchitecturePatternsTest.scala
-└── 19-modern-syntax-safety/
-    ├── src/
-        └── ModernSyntaxSafety.scala
-    └── test/src/
-        └── ModernSyntaxSafetyTest.scala
+├── 19-modern-syntax-safety/
+│   ├── src/
+│   │   └── ModernSyntaxSafety.scala
+│   └── test/src/
+│       └── ModernSyntaxSafetyTest.scala
+└── 20-metaprogramming/
+    └── src/
+        ├── Macros.scala
+        └── Metaprogramming.scala
 ```
 
 ## 學習建議
