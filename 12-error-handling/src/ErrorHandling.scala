@@ -89,8 +89,8 @@ def example2(): Unit =
   println(s"鏈式操作結果: $result")
 
   // getOrElse：提供預設值
-  println(s"Success.getOrElse(0) = ${parseNumber(\"42\").getOrElse(0)}")
-  println(s"Failure.getOrElse(0) = ${parseNumber(\"invalid\").getOrElse(0)}")
+  println(s"Success.getOrElse(0) = ${parseNumber("42").getOrElse(0)}")
+  println(s"Failure.getOrElse(0) = ${parseNumber("invalid").getOrElse(0)}")
 
   // fold：將 Either 縮減為單一值
   val value = parseNumber("42").fold(
@@ -207,7 +207,7 @@ def example5(): Unit =
 
   def processDataFunctional(data: String): Either[String, String] =
     for
-      num <- Either.catchNonFatal(data.toInt)
+      num <- scala.util.Try(data.toInt).toEither
         .left.map(_ => "解析失敗")
       message <- if num > 0 then Right(s"正數: $num")
                 else Right("非正數")
