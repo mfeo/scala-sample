@@ -19,6 +19,7 @@
   example4()
   example5()
   example6()
+  example7()
 
   println("=== 章節完成 ===")
 
@@ -225,5 +226,88 @@ def example6(): Unit =
   // mkString：將列表轉換為字串
   val joined = numbers.mkString(" - ")
   println(s"mkString: $joined")
+
+  println()
+
+/**
+ * 範例 7: 進階集合操作 (Rich Operations)
+ *
+ * 展示 Scala 強大的集合處理能力，如分組、分區、部分函數等。
+ */
+def example7(): Unit =
+  println("--- 範例 7: 進階集合操作 ---")
+
+  val numbers = List(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+  val words = List("scala", "java", "kotlin", "rust", "go", "swift")
+  
+  println(s"數字列表: $numbers")
+  println(s"單字列表: $words")
+
+  // 1. groupBy: 根據條件分組
+  // 將單字按長度分組
+  val wordsByLength = words.groupBy(_.length)
+  println(s"\n[groupBy] 按長度分組: $wordsByLength")
+  
+  // 2. groupMap: 分組後同時轉換值 (比 groupBy + mapValues 更高效)
+  // 將數字按奇偶分組，並將其平方
+  val squaresByParity = numbers.groupMap(_ % 2 == 0)(x => x * x)
+  println(s"\n[groupMap] 奇偶分組並平方: $squaresByParity")
+  // 結果: Map(false -> List(1, 9, 25...), true -> List(4, 16, 36...))
+
+  // 3. partition: 根據條件分成兩組 (滿足/不滿足)
+  val (evens, odds) = numbers.partition(_ % 2 == 0)
+  println(s"\n[partition] 分割奇偶數:")
+  println(s"  偶數: $evens")
+  println(s"  奇數: $odds")
+
+  // 4. collect: 結合 filter 和 map 的功能 (使用 PartialFunction)
+  // 只處理長度大於 4 的單字，並轉為大寫
+  val longWordsUpper = words.collect {
+    case w if w.length > 4 => w.toUpperCase
+  }
+  println(s"\n[collect] 長單字轉大寫: $longWordsUpper")
+
+  // 5. span: 分割列表直到條件不滿足為止
+  // 分割直到遇到第一個大於 5 的數字
+  val (lessThan5, rest) = numbers.span(_ < 5)
+  println(s"\n[span] 分割小於 5 的前綴:")
+  println(s"  前綴: $lessThan5")
+  println(s"  剩餘: $rest")
+
+  // 6. sliding: 滑動視窗
+  // 產生長度為 3 的滑動視窗
+  val windows = numbers.sliding(3).toList
+  println(s"\n[sliding] 滑動視窗 (size=3):")
+  windows.foreach(w => print(s"$w "))
+  println()
+
+  // 7. grouped: 固定大小分組
+  // 每 3 個一組
+  val groups = numbers.grouped(3).toList
+  println(s"\n[grouped] 固定分組 (size=3):")
+  groups.foreach(g => print(s"$g "))
+  println()
+
+  // 8. zipWithIndex: 結合索引
+  val withIndex = words.zipWithIndex
+  println(s"\n[zipWithIndex] 結合索引: $withIndex")
+
+  // 9. distinctBy: 根據特定條件去重 (Scala 2.13+)
+  val duplicates = List("apple", "pie", "apple", "pie", "banana")
+  val unique = duplicates.distinct
+  // 根據首字母去重
+  val uniqueByFirstChar = duplicates.distinctBy(_.head)
+  println(s"\n[distinct] 去重: $unique")
+  println(s"[distinctBy] 首字母去重: $uniqueByFirstChar")
+  
+  // 10. view: 惰性集合視圖 (Lazy View)
+  // 避免產生中間集合，提高效能
+  println(s"\n[view] 惰性操作鏈:")
+  val result = numbers.view
+    .map(_ + 1)
+    .filter(_ % 2 == 0)
+    .take(3)
+    .toList // 最後才強制求值
+  println(s"  結果: $result")
 
   println()

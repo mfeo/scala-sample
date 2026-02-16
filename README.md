@@ -81,7 +81,7 @@ mill clean
 
 ### 階段二：函式與集合（第 5-7 章）
 5. **05-functions** - 函式式程式設計基礎
-6. **06-collections** - 集合操作
+6. **06-collections** - 集合操作與進階函式
 7. **07-map-set** - 進階集合類型
 
 ### 階段三：物件導向（第 8-9 章）
@@ -175,7 +175,7 @@ mill -i <module-name>.console
 
 ```
 scala-sample/
-├── build.sc              # Mill 建置設定
+├── build.mill            # Mill 建置設定
 ├── .gitignore            # Git 忽略檔案
 ├── README.md             # 本文件
 ├── 01-hello-world/
