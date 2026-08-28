@@ -7,7 +7,7 @@ import mill.scalalib._
 
 // 基礎模組特徵，包含共同的 Scala 設定
 trait LearningModule extends ScalaModule {
-  def scalaVersion = "3.3.1"
+  def scalaVersion = "3.3.8"
 
   // 測試依賴（使用 munit）
   object test extends ScalaTests with TestModule.Munit {
