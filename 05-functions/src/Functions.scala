@@ -109,6 +109,10 @@ def example3(): Unit =
   println(s"sum(1, 2, 3, 4, 5) = ${sum(1, 2, 3, 4, 5)}")
   println(s"sum() = ${sum()}")  // 空參數
 
+  // Scala 3 使用 `values*` 展開 Seq，不再使用 Scala 2 的 `values: _*`。
+  val values = Seq(6, 7, 8)
+  println(s"sum(values*) = ${sum(values*)}")
+
   // 可變參數函式也可以有其他參數
   def printWithPrefix(prefix: String, items: String*): Unit =
     println(s"$prefix: ${items.mkString(", ")}")

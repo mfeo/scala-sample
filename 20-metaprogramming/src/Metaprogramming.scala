@@ -7,6 +7,7 @@ import metaprogramming.Macros.*
 
   exampleDebugMacro()
   exampleCodeGeneration()
+  exampleCompileTimeOperations()
   exampleScala2Comparison()
 
   println("=== 章節完成 ===")
@@ -38,13 +39,27 @@ def exampleCodeGeneration(): Unit =
   inspectType[List[Int]]
 
 /**
- * 範例 3: Scala 2 與 Scala 3 Macro 對照 (僅供參考)
+ * 範例 3: Compile-time Operations（編譯期操作）與 Quoted Pattern（引號模式）
+ */
+def exampleCompileTimeOperations(): Unit =
+  println("\n--- 範例 3: 編譯期操作與引號模式 ---")
+
+  val left = 1
+  val right = 2
+  println(s"Compile-time validation: ${requireNonNegative(0)}")
+  println(s"Quoted pattern detects addition: ${isAddition(left + right)}")
+  println(s"Quoted pattern rejects other expressions: ${isAddition(3 * 4)}")
+  println(s"Mirror product derivation: ${FieldCount[AuditEvent]}")
+  println(s"Mirror sum derivation: ${FieldCount[Command]}")
+
+/**
+ * 範例 4: Scala 2 與 Scala 3 Macro 對照 (僅供參考)
  *
  * 由於 Scala 2 Macro 依賴 `scala-reflect` 且 API 完全不同，無法在 Scala 3 專案中直接執行。
  * 以下展示若在 Scala 2 中實作相同的 `debug` macro 該如何寫。
  */
 def exampleScala2Comparison(): Unit =
-  println("\n--- 範例 3: Scala 2 Macro 對照 (Reference Only) ---")
+  println("\n--- 範例 4: Scala 2 Macro 對照 (Reference Only) ---")
   
   val scala2Code = """
   // ==========================================
@@ -75,4 +90,4 @@ def exampleScala2Comparison(): Unit =
   println("主要差異：")
   println("1. Scala 3 使用 `inline` + `quoted` ('{...})，語法更接近普通 Scala 程式碼。")
   println("2. Scala 2 使用 `Context` + `Universe` (AST)，API 非常複雜且依賴編譯器內部實作。")
-  println("3. Scala 3 Macro 更安全、編譯速度更快，且支援 Scala.js 與 Scala Native。")
+  println("3. Scala 3 Macro 提供分層且有型別的 API；實際編譯成本取決於巨集的工作量與展開大小。")

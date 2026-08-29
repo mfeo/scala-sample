@@ -10,6 +10,30 @@
 
 package architecture_patterns
 
+import scala.annotation.targetName
+
+trait Greeter(prefix: String):
+  def greet(name: String): String = s"$prefix, $name"
+
+class FriendlyGreeter extends Greeter("Hello")
+
+open class ExtensibleService(val name: String)
+
+class AuditService extends ExtensibleService("audit")
+
+transparent trait DomainMarker
+
+class TaggedValue(val value: String) extends DomainMarker
+
+class Device(val name: String)
+
+case class Vector2(x: Int, y: Int)
+
+extension (left: Vector2)
+  @targetName("addVectors")
+  infix def +(right: Vector2): Vector2 =
+    Vector2(left.x + right.x, left.y + right.y)
+
 @main def runArchitecturePatterns(): Unit =
   println("=== 章節 18: 架構設計模式 ===\n")
 
@@ -18,6 +42,9 @@ package architecture_patterns
 
   // 範例 2: 匯出子句 (Export Clauses)
   exampleExportClauses()
+
+  // 範例 3: Scala 3 的類別與方法設計功能
+  exampleScala3ClassFeatures()
 
   println("\n=== 章節完成 ===")
 
@@ -99,3 +126,20 @@ def exampleExportClauses(): Unit =
   println(s"掃描結果: ${copier.scanDoc()}")
   
   copier.copy()
+
+/**
+ * 範例 3: Scala 3 的類別與方法設計功能
+ *
+ * Trait parameter（特徵參數）讓 trait 直接接收初始化資料。
+ * open class（開放類別）明確允許在其他檔案中繼承。
+ * transparent trait（透明特徵）可在推斷共同型別時略過純標記父型別。
+ * Universal apply method（通用 apply 方法）讓沒有伴生 apply 的 class 可省略 new。
+ * @targetName 為產生的 JVM 方法提供不衝突的名稱；infix 則明確允許中綴呼叫。
+ */
+def exampleScala3ClassFeatures(): Unit =
+  println("\n--- 範例 3: Scala 3 的類別與方法設計功能 ---")
+
+  println(FriendlyGreeter().greet("Scala"))
+  println(s"Open class: ${AuditService().name}")
+  println(s"Universal apply: ${Device("printer").name}")
+  println(s"Infix 與 @targetName: ${Vector2(1, 2) + Vector2(3, 4)}")

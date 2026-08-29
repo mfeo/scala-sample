@@ -6,7 +6,7 @@
  * 2. 掌握 Scala 的型別推斷機制
  * 3. 學習基本的資料型別
  * 4. 進行型別轉換
- * 5. 認識零值（默認值）的概念
+ * 5. 理解明確初始化與 Tuple（元組）解構
  */
 
 @main def run(): Unit =
@@ -161,27 +161,26 @@ def example4(): Unit =
   println()
 
 /**
- * 範例 5: 零值與多變數宣告
+ * 範例 5: 明確初始化與 Tuple（元組）解構
  *
- * 每種型別都有預設的零值：
- * - 數值型別的零值是 0（或 0.0）
- * - 布林的零值是 false
- * - 字串的零值是 null（但不推薦）
+ * Scala 的區域 val 與 var 必須明確初始化。
+ * JVM（Java Virtual Machine，Java 虛擬機器）的欄位預設值是執行平台細節，
+ * 並不是 Scala 語言提供的「零值」。
  */
 def example5(): Unit =
-  println("--- 範例 5: 零值與多變數宣告 ---")
+  println("--- 範例 5: 明確初始化與 Tuple 解構 ---")
 
-  // 使用顯式初始化（推薦做法）
+  // 每個區域值都有明確的初始值。
   val a = 0
   val b = 0.0
   val c = false
   println(s"顯式初始化: a = $a, b = $b, c = $c")
 
-  // 在 Scala 中，可以在一行中宣告多個變數
+  // Tuple 模式可以一次綁定多個區域值。
   val (x, y, z) = (10, 20, 30)
   println(s"多變數宣告: x = $x, y = $y, z = $z")
 
-  // 也可以宣告多個相同型別的變數
+  // 各自宣告的值可以推斷成不同型別。
   val name = "Alice"
   val age = 25
   val score = 95.5

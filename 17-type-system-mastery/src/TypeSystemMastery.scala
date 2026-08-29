@@ -12,6 +12,15 @@
 
 package type_system_mastery
 
+import scala.AnyKind
+import scala.reflect.Selectable.reflectiveSelectable
+
+def acceptKind[Value <: AnyKind](label: String): String = label
+
+type NamedRecord = { def name: String }
+
+def structuralName(record: NamedRecord): String = record.name
+
 // 定義一些用於範例的類別層次結構
 trait Animal { def name: String }
 case class Cat(name: String) extends Animal
@@ -34,6 +43,9 @@ class Meat extends Food { override def toString = "肉" }
 
   // 範例 4: 抽象型別成員 (Abstract Type Members)
   exampleAbstractTypeMembers()
+
+  // 範例 5: Kind polymorphism 與 programmatic structural type
+  exampleScala3TypeFoundations()
 
   println("\n=== 章節完成 ===")
 
@@ -114,7 +126,7 @@ def exampleVarianceInvariance(): Unit =
   // val animalContainer: Container[Animal] = catContainer 
   // 錯誤原因：如果這行合法，我們就可以做以下操作：
   // animalContainer.item = Dog("小白") // 把狗放進原本是貓的容器裡！
-  // val cat: Cat = catContainer.item   // 試圖把狗當成貓拿出來，造成 Runtime Error
+  // val cat: Cat = catContainer.item   // 若允許此操作，型別安全就會遭到破壞
   
   println("Container[Cat] 不能賦值給 Container[Animal]，保證了寫入安全。")
   println(s"容器內容: ${catContainer.item.name}")
@@ -155,3 +167,24 @@ def exampleAbstractTypeMembers(): Unit =
   // cow.eat(new Meat()) // 編譯錯誤：Cow 只能吃 Grass
   
   println("透過 `type F = Grass`，我們將具體型別綁定到了實作中。")
+
+/**
+ * 範例 5: Kind Polymorphism（種類多型）與 Programmatic Structural Type（程式化結構型別）
+ *
+ * AnyKind 讓型別定義同時接受普通型別與型別建構器。
+ * 結構型別依照成員形狀接受物件；reflectiveSelectable 提供 JVM 上的反射式方法選取。
+ */
+def exampleScala3TypeFoundations(): Unit =
+  println("\n--- 範例 5: Kind Polymorphism 與 Structural Type ---")
+
+  val ordinary = acceptKind[Int]("Int")
+  val constructor = acceptKind[List]("List")
+  val binaryConstructor = acceptKind[Map]("Map")
+
+  val record: NamedRecord = new:
+    val name = "structural"
+
+  println(s"普通型別: $ordinary")
+  println(s"一元型別建構器: $constructor")
+  println(s"二元型別建構器: $binaryConstructor")
+  println(s"結構型別: ${structuralName(record)}")

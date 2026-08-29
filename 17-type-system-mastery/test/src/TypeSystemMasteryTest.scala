@@ -30,3 +30,16 @@ class TypeSystemMasteryTest extends munit.FunSuite:
       def eat(food: Grass) = "Moo"
     }
     assertEquals(new Cow().eat(new Grass), "Moo")
+
+  test("kind polymorphism preserves ordinary and constructor kinds"):
+    assertEquals(acceptKind[Int]("value"), "value")
+    assertEquals(acceptKind[List]("unary"), "unary")
+    assertEquals(acceptKind[Map]("binary"), "binary")
+
+  test("programmatic structural type selects required members only"):
+    var unrelated = 0
+    val record: NamedRecord = new:
+      val name = "record"
+      def touch(): Unit = unrelated += 1
+    assertEquals(structuralName(record), "record")
+    assertEquals(unrelated, 0)

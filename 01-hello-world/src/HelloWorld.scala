@@ -57,8 +57,8 @@ def example2(): Unit =
 
   // 定義一些變數用於字串插值
   val name = "Scala"
-  val version = "3.3.1"
-  val year = 2024
+  val version = "3.3.8 LTS"
+  val year = 2026
 
   // 使用 s 字串插值
   val message1 = s"歡迎使用 $name 版本 $version"

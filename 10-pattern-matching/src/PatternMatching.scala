@@ -81,20 +81,22 @@ def example2(): Unit =
 def example3(): Unit =
   println("--- 範例 3: Case Class 的解構 ---")
 
-  case class Person(name: String, age: Int, city: String)
-  case class Company(name: String, employees: Int)
+  sealed trait Entity
+  case class Person(name: String, age: Int, city: String) extends Entity
+  case class Company(name: String, employees: Int) extends Entity
+  case class Unknown(value: Any) extends Entity
 
-  def describePerson(person: Any): Unit = person match
+  def describePerson(person: Entity): Unit = person match
     case Person(name, age, city) =>
       println(s"人物: 名字=$name, 年齡=$age, 城市=$city")
     case Company(name, employees) =>
       println(s"公司: 名字=$name, 員工數=$employees")
-    case _ =>
+    case Unknown(_) =>
       println("未知型別")
 
   describePerson(Person("Alice", 25, "台北"))
   describePerson(Company("TechCorp", 100))
-  describePerson("Something else")
+  describePerson(Unknown("Something else"))
 
   // 在模式匹配中忽略某些欄位
   def getPersonName(person: Person): String = person match
@@ -106,7 +108,7 @@ def example3(): Unit =
   println()
 
 /**
- * 範例 4: Guard 條件（when 子句）
+ * 範例 4: Pattern Guard（模式守衛，使用 `if` 子句）
  *
  * 可以在模式匹配中加入額外的條件。
  */

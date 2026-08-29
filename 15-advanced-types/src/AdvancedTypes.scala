@@ -1,176 +1,98 @@
 /**
- * 章節 15: 進階型別系統 (Advanced Types)
+ * 章節 15: Scala 3.3.8 的進階型別
  *
  * 學習目標：
- * 1. 比較 Scala 3 Enum 與 Scala 2 Sealed Trait
- * 2. 理解 Union Types (`|`) 與 Intersection Types (`&`)
- * 3. 認識 Opaque Types (不透明型別) 與 Value Classes
+ * 1. 使用 enum（列舉）建立有限狀態與 ADT（Algebraic Data Type，代數資料型別）
+ * 2. 使用 union type（聯集型別）、intersection type（交集型別）與 opaque type（不透明型別）
+ * 3. 使用 type lambda（型別 Lambda）與 match type（匹配型別）進行型別層級運算
+ * 4. 使用 polymorphic function（多型函式）與 dependent function（相依函式）
+ * 5. 使用 `?` 表示 wildcard type argument（萬用型別引數）
  */
+
+package advanced_types
+
+enum TrafficSignal(val durationSeconds: Int) derives CanEqual:
+  case Red extends TrafficSignal(60)
+  case Yellow extends TrafficSignal(5)
+  case Green extends TrafficSignal(45)
+
+enum Message derives CanEqual:
+  case Quit
+  case Move(x: Int, y: Int)
+  case Write(content: String)
+
+def describeMessage(message: Message): String =
+  message match
+    case Message.Quit => "quit"
+    case Message.Move(x, y) => s"move($x,$y)"
+    case Message.Write(content) => s"write($content)"
+
+def parseNumber(value: String): String | Int =
+  value.toIntOption match
+    case Some(number) => number
+    case None => s"Invalid number: $value"
+
+def describeParsed(value: String | Int): String =
+  value match
+    case number: Int => s"number=$number"
+    case error: String => error
+
+trait Resettable:
+  def reset(): String
+
+trait Growable:
+  def grow(): String
+
+def operate(component: Resettable & Growable): (String, String) =
+  component.reset() -> component.grow()
+
+object UserId:
+  opaque type Type = Long
+
+  def from(value: Long): Option[Type] = Option.when(value > 0)(value)
+
+  extension (id: Type)
+    def value: Long = id
+
+type KeyedMap = [Value] =>> Map[String, Value]
+
+def emptyKeyedMap[Value]: KeyedMap[Value] = Map.empty
+
+type ElementOf[Container] = Container match
+  case String => Char
+  case Array[element] => element
+  case Iterable[element] => element
+
+val identityFunction: [Value] => Value => Value =
+  [Value] => (value: Value) => value
+
+trait Keyed:
+  type Key
+  def key: Key
+
+val extractKey: (entry: Keyed) => entry.Key =
+  (entry: Keyed) => entry.key
+
+def collectionSize(values: Iterable[?]): Int = values.size
 
 @main def run(): Unit =
-  println("=== 章節 15: 進階型別系統 (Advanced Types) ===\n")
+  println("=== 章節 15: Scala 3.3.8 的進階型別 ===\n")
 
-  example1()
-  example2()
-  example3()
-  example4()
+  println(s"Enum: ${TrafficSignal.values.mkString(", ")}")
+  println(s"ADT: ${describeMessage(Message.Move(10, 20))}")
+  println(s"Union type: ${describeParsed(parseNumber("123"))}")
 
-  println("=== 章節完成 ===")
+  val component = new Resettable with Growable:
+    def reset(): String = "reset"
+    def grow(): String = "grow"
+  println(s"Intersection type: ${operate(component)}")
 
-/**
- * 範例 1: 列舉 (Enum)
- *
- * 用於定義有限的選項集合或代數資料型別 (ADT)。
- */
-def example1(): Unit =
-  println("--- 範例 1: 列舉 (Enum vs Sealed Trait) ---")
+  import UserId.*
+  println(s"Opaque type: ${UserId.from(1).map(_.value)}")
 
-  // ==========================================
-  // Scala 2 風格 (Sealed Trait + Case Objects)
-  // ==========================================
-  sealed trait Color2
-  object Color2 {
-    case object Red extends Color2
-    case object Green extends Color2
-    case object Blue extends Color2
-  }
+  val map: KeyedMap[Int] = emptyKeyedMap
+  println(s"Type lambda: $map")
+  println(s"Polymorphic function: ${identityFunction[String]("Scala")}")
+  println(s"Wildcard type argument: ${collectionSize(List(1, 2, 3))}")
 
-  val c2: Color2 = Color2.Red
-  println(s"Scala 2 Color: $c2")
-
-  // ==========================================
-  // Scala 3 風格 (Enum)
-  // ==========================================
-  enum Color3:
-    case Red, Green, Blue
-
-  val c3: Color3 = Color3.Red
-  println(s"Scala 3 Enum: $c3")
-
-  // 帶參數的 Enum (ADT)
-  enum Message:
-    case Quit
-    case Move(x: Int, y: Int)
-    case Write(content: String)
-
-  val msg = Message.Move(10, 20)
-  println(s"Scala 3 ADT: $msg")
-  
-  println()
-
-/**
- * 範例 2: 聯集型別 (Union Types)
- *
- * 表示一個值可以是 A "或" B 型別。
- */
-def example2(): Unit =
-  println("--- 範例 2: 聯集型別 (Union Types) ---")
-
-  // ==========================================
-  // Scala 2 風格 (使用 Either 或共同父類)
-  // ==========================================
-  // 通常使用 Either[A, B] 來表達 A 或 B
-  def parseSc2(s: String): Either[String, Int] =
-    if (s.matches("\\d+")) Right(s.toInt) else Left(s"Invalid number: $s")
-
-  parseSc2("123") match {
-    case Right(i) => println(s"Scala 2 Right: $i")
-    case Left(err) => println(s"Scala 2 Left: $err")
-  }
-
-  // ==========================================
-  // Scala 3 風格 (Union Types A | B)
-  // ==========================================
-  // 這裡回傳型別是 String | Int
-  def parseSc3(s: String): String | Int =
-    if s.matches("\\d+") then s.toInt else s"Invalid number: $s"
-
-  val res3 = parseSc3("ABC")
-  // 處理時使用模式匹配
-  res3 match
-    case i: Int => println(s"Scala 3 Int: $i")
-    case s: String => println(s"Scala 3 String: $s")
-
-  println()
-
-/**
- * 範例 3: 交集型別 (Intersection Types)
- *
- * 表示一個值必須同時滿足 A "和" B 型別。
- */
-def example3(): Unit =
-  println("--- 範例 3: 交集型別 (Intersection Types) ---")
-
-  trait Resettable:
-    def reset(): Unit
-
-  trait Growable:
-    def grow(): Unit
-
-  // ==========================================
-  // Scala 2 風格 (with 關鍵字)
-  // ==========================================
-  def processSc2(x: Resettable with Growable): Unit =
-    x.reset()
-    x.grow()
-
-  // ==========================================
-  // Scala 3 風格 (& 符號)
-  // ==========================================
-  // 語義上更接近集合的交集，且具交換律 (A & B 等同於 B & A)
-  def processSc3(x: Resettable & Growable): Unit =
-    x.reset()
-    x.grow()
-
-  class Component extends Resettable, Growable:
-    def reset() = print("Reset..")
-    def grow() = println("Grow..")
-
-  val comp = new Component
-  print("Scala 2 call: ")
-  processSc2(comp)
-  
-  print("Scala 3 call: ")
-  processSc3(comp)
-
-  println()
-
-/**
- * 範例 4: 不透明型別別名 (Opaque Type Aliases)
- *
- * 提供零成本的抽象：在編譯期區分型別，執行期無包裝開銷。
- */
-// Value Class 必須定義在頂層
-case class LogIDSc2(val id: String) extends AnyVal
-
-def example4(): Unit =
-  println("--- 範例 4: Opaque Types vs Value Classes ---")
-
-  // ==========================================
-  // Scala 2 風格 (Value Class)
-  // ==========================================
-  // 繼承 AnyVal 來避免執行期分配物件，但有時仍會發生裝箱 (boxing)
-  
-  val id2 = LogIDSc2("user-123")
-  println(s"Scala 2 Value Class: $id2")
-
-  // ==========================================
-  // Scala 3 風格 (Opaque Type)
-  // ==========================================
-  object LogTypes:
-    opaque type LogID = String
-    
-    // 必須在定義域內提供建構與存取方法
-    object LogID:
-      def apply(s: String): LogID = s
-    
-    extension (id: LogID)
-      def value: String = id
-
-  import LogTypes.*
-  val id3: LogID = LogID("user-456")
-  // val fail: LogID = "user-456" // 編譯錯誤！外部無法直接將 String 視為 LogID
-  
-  println(s"Scala 3 Opaque Type: ${id3.value}") // 執行期這就是一個單純的 String
-  
-  println()
+  println("\n=== 章節完成 ===")

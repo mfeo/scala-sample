@@ -12,6 +12,22 @@
 package modern_syntax_safety
 
 import scala.language.strictEquality // 啟用嚴格相等性檢查
+import scala.reflect.TypeTest
+
+inline def chooseMessage(inline enabled: Boolean): String =
+  inline if enabled then "enabled" else "disabled"
+
+transparent inline def defaultValue(inline text: Boolean) =
+  inline if text then "" else 0
+
+def checkedCast[Source, Target](value: Source)(using test: TypeTest[Source, Target]): Option[Target] =
+  test.unapply(value)
+
+def describeMatchable(value: Matchable): String =
+  value match
+    case number: Int => s"Int($number)"
+    case text: String => s"String($text)"
+    case _ => "Other"
 
 @main def runModernSyntaxSafety(): Unit =
   println("=== 章節 19: 現代語法與安全 ===\n")
@@ -24,6 +40,9 @@ import scala.language.strictEquality // 啟用嚴格相等性檢查
 
   // 範例 3: 行內函式 (Inline)
   exampleInlineBasics()
+
+  // 範例 4: Matchable、TypeTest 與安全初始化
+  exampleRuntimeTypeSafety()
 
   println("\n=== 章節完成 ===")
 
@@ -52,9 +71,9 @@ def exampleMultiversalEquality(): Unit =
   // println(user1 == 1) 
   // 錯誤：Values of types UserId and Int cannot be compared with == or !=
 
-  // 如果確實需要比較不同型別（例如 Int 和 Double），需要明確給出 CanEqual 實例
-  given CanEqual[Int, String] = CanEqual.derived
-  println(s"Int 與 String 比較 (因為有 given CanEqual): ${1 == "1"}")
+  // 不應為無關型別建立 CanEqual；需要跨型別比較時，應先明確轉換成共同領域型別。
+  val externalId = 1
+  println(s"明確轉換後比較: ${user1.id == externalId}")
 
 /**
  * 範例 2: 參數解構 (Parameter Untupling)
@@ -100,5 +119,27 @@ def exampleInlineBasics(): Unit =
   // 甚至更進一步，如果是常數條件，編譯器會進行「死碼消除」(Dead Code Elimination)
   // 下面這行在編譯後，連 if 判斷都不會存在，完全被移除
   log("這行不會被印出，也不會產生執行期開銷", 0)
-  
+
+  // inline parameter 與 inline if 保證條件可在編譯期化簡。
+  println(s"Inline conditional: ${chooseMessage(true)}")
+
+  // transparent inline 會保留展開後更精確的靜態型別。
+  val emptyText: String = defaultValue(true)
+  val zero: Int = defaultValue(false)
+  println(s"Transparent inline: '$emptyText', $zero")
+
   println("行內函式已執行 (請參考原始碼說明)。")
+
+/**
+ * 範例 4: Matchable、TypeTest 與 Safe Initialization
+ *
+ * Matchable 限制可接受模式匹配的值；TypeTest 為泛型程式提供安全的執行期型別測試。
+ * Safe Initialization（安全初始化）由 build.mill 的 -Ysafe-init 啟用，
+ * 會警告在物件初始化完成前讀取尚未就緒的欄位。
+ */
+def exampleRuntimeTypeSafety(): Unit =
+  println("\n--- 範例 4: Matchable、TypeTest 與 Safe Initialization ---")
+
+  println(describeMatchable(42))
+  println(describeMatchable("Scala"))
+  println(s"TypeTest: ${checkedCast[Any, String]("safe")}")

@@ -202,10 +202,12 @@ def example5(): Unit =
   // 使用 unapply（在模式匹配中）
   email1 match
     case Some(Email(addr)) => println(s"有效的電郵地址: $addr")
+    case Some(_) => println("無法辨識的電郵物件")
     case None => println("無效的電郵地址")
 
   email2 match
     case Some(Email(addr)) => println(s"有效的電郵地址: $addr")
+    case Some(_) => println("無法辨識的電郵物件")
     case None => println("無效的電郵地址")
 
   println()

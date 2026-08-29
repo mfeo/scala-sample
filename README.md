@@ -1,27 +1,27 @@
 # Scala 學習範例專案
 
-這是一個針對 Scala 初學者設計的學習專案，通過 16 個獨立章節循序漸進地學習 Scala 程式語言。本專案參考了 Go 語言學習專案的結構，重新設計以充分展現 Scala 的特色與強大功能。
+這是一個針對 Scala 初學者設計的學習專案，透過 20 個獨立章節循序漸進地學習 Scala 程式語言。本專案明確以 Scala 3.3.8 LTS（Long-Term Support，長期支援版本）為準，不宣稱涵蓋較新的 Scala 3.7–3.8 功能。
 
 ## 專案特色
 
 - ✅ 使用 Mill 建置工具（高效能、易於使用）
-- ✅ 16 個獨立章節，每個都可單獨編譯執行
+- ✅ 20 個獨立章節，每個都可單獨編譯執行
 - ✅ 大量繁體中文註解，適合華語學習者
 - ✅ 涵蓋 Scala 核心概念與最佳實踐
-- ✅ 使用 Scala 3 最新語法
+- ✅ 使用並解釋 Scala 3.3.8 LTS 語法與語意
 - ✅ 包含部分測試範例，展示 Scala 測試寫法
 
 ## 環境需求
 
 - Java 11 或更高版本
-- Mill 0.11.0 或更高版本（建議使用最新版）
+- Mill 1.1.2 或更高版本
 - （可選）IDE：IntelliJ IDEA 或 VS Code + Metals
 
 ## 安裝 Mill
 
 ### macOS/Linux
 ```bash
-curl -L https://github.com/com-lihaoyi/mill/releases/download/0.11.6/0.11.6 > /usr/local/bin/mill
+curl -L https://repo1.maven.org/maven2/com/lihaoyi/mill-dist/1.1.8/mill-dist-1.1.8-mill.sh -o /usr/local/bin/mill
 chmod +x /usr/local/bin/mill
 ```
 
@@ -94,18 +94,18 @@ mill clean
 12. **12-error-handling** - 錯誤處理策略
 13. **13-functional-programming** - 函數式程式設計核心
 
-### 階段五：Scala 3 新特性與並行（第 14-16 章）
-14. **14-contextual-abstractions** - 上下文抽象 (Given/Using)
-15. **15-advanced-types** - 進階型別系統 (Enum, Union Types)
+### 階段五：Scala 3.3.8 功能與並行（第 14-16 章）
+14. **14-contextual-abstractions** - 上下文抽象（Given、Using、Context Function）
+15. **15-advanced-types** - 進階型別系統（Enum、Union/Intersection、Match Type、Type Lambda）
 16. **16-concurrency** - 並行程式設計 (Future/Promise)
 
 ### 階段六：進階架構與現代語法（第 17-19 章）
-17. **17-type-system-mastery** - 型別系統精通 (Variance, Abstract Types)
-18. **18-architecture-patterns** - 架構設計模式 (Self-types, Export)
-19. **19-modern-syntax-safety** - 現代語法與安全 (Multiversal Equality, Inline)
+17. **17-type-system-mastery** - 型別系統精通（Variance、Abstract/Structural Types、Kind Polymorphism）
+18. **18-architecture-patterns** - 架構設計模式（Self-types、Export、Trait Parameters、Open/Transparent）
+19. **19-modern-syntax-safety** - 現代語法與安全（Multiversal Equality、Inline、TypeTest、Safe Initialization）
 
 ### 階段七：元程式設計（第 20 章）
-20. **20-metaprogramming** - 元程式設計 (Macros, Quotes, Splices)
+20. **20-metaprogramming** - 元程式設計（Inline、Compile-time Operations、Quotes、Splices、Mirror Derivation）
 
 ## 章節概覽
 
@@ -124,13 +124,34 @@ mill clean
 | 11 | Option & Try | Option/Try monad | ⭐⭐⭐⭐ |
 | 12 | Error Handling | Either、異常處理 | ⭐⭐⭐⭐ |
 | 13 | Functional Programming | 純函式、柯里化 | ⭐⭐⭐⭐ |
-| 14 | Contextual Abstractions | Given/Using、Extension | ⭐⭐⭐⭐⭐ |
-| 15 | Advanced Types | Enum、Union/Intersection | ⭐⭐⭐⭐⭐ |
+| 14 | Contextual Abstractions | Given/Using、Extension、Context Function | ⭐⭐⭐⭐⭐ |
+| 15 | Advanced Types | Enum、Union/Intersection、Match Type、Type Lambda | ⭐⭐⭐⭐⭐ |
 | 16 | Concurrency | Future、Promise | ⭐⭐⭐⭐ |
-| 17 | Type System Mastery | Variance、Abstract Types | ⭐⭐⭐⭐⭐ |
-| 18 | Architecture Patterns | Self-types、Export Clauses | ⭐⭐⭐⭐⭐ |
-| 19 | Modern Syntax & Safety | Multiversal Equality、Inline | ⭐⭐⭐⭐⭐ |
-| 20 | Metaprogramming | Macros、Quotes、Splices | ⭐⭐⭐⭐⭐ |
+| 17 | Type System Mastery | Variance、Abstract/Structural Types、Kind Polymorphism | ⭐⭐⭐⭐⭐ |
+| 18 | Architecture Patterns | Self-types、Export、Trait Parameters、Open/Transparent | ⭐⭐⭐⭐⭐ |
+| 19 | Modern Syntax & Safety | Multiversal Equality、Inline、TypeTest、Safe Initialization | ⭐⭐⭐⭐⭐ |
+| 20 | Metaprogramming | Compile-time Operations、Macros、Quotes、Mirror | ⭐⭐⭐⭐⭐ |
+
+## Scala 3.3.8 功能範圍
+
+本專案以可實際編譯、執行與測試的 Scala 3.3.8 功能為範圍：
+
+- 新語法：縮排式區塊、選用大括號、新控制結構、頂層定義、`@main`、通用 `apply`、`*` 可變參數展開，以及 `*`/`as` 匯入語法。
+- 上下文抽象：`given`、`using`、context bound（上下文界限）、given import（給定實例匯入）、extension method（擴充方法）、context function（上下文函式）、傳名上下文參數與隱式轉換。
+- 型別系統：enum（列舉）、聯集與交集型別、不透明型別、型別 Lambda、匹配型別、相依函式、多型函式、種類多型、結構型別、`Matchable` 與 `TypeTest`。
+- 類別設計：trait parameter（特徵參數）、`open`、`transparent`、`export`、`infix` 與 `@targetName`。
+- 安全與元程式設計：嚴格相等性、安全初始化、`inline`、`transparent inline`、編譯期操作、引號與拼接、反射，以及以 `Mirror` 進行型別類別衍生。
+
+Scala 3.7 的 Named Tuples（具名元組）及 Scala 3.8 的 Better Fors（改良 for 推導式）與 `runtimeChecked` 不在本專案的 3.3.8 範圍內。
+
+## Scala 2 遷移重點
+
+- 型別萬用字元由 `_` 改成 `?`。
+- 萬用匯入使用 `*`，重新命名使用 `as`。
+- 可變參數序列使用 `values*` 展開，不再使用 `values: _*`。
+- 方法可自動進行 Eta expansion（轉換成函式值），通常不再需要尾端 `_`。
+- Scala 3 調整了型別推斷、多載解析與隱式解析規則；新程式應優先使用 `given` 與 `using`。
+- Scala 3 已移除真正的 `do-while`、existential type（存在型別）、一般型別投影、程序語法、early initializer（早期初始化器）、package object（套件物件）與 Scala 2 巨集。
 
 ## 與 Go 的對應關係
 
@@ -227,11 +248,15 @@ scala-sample/
 │   └── src/
 │       └── FunctionalProgramming.scala
 ├── 14-contextual-abstractions/
-│   └── src/
-│       └── ContextualAbstractions.scala
+│   ├── src/
+│   │   └── ContextualAbstractions.scala
+│   └── test/src/
+│       └── ContextualAbstractionsTest.scala
 ├── 15-advanced-types/
-│   └── src/
-│       └── AdvancedTypes.scala
+│   ├── src/
+│   │   └── AdvancedTypes.scala
+│   └── test/src/
+│       └── AdvancedTypesTest.scala
 ├── 16-concurrency/
 │   └── src/
 │       └── Concurrency.scala
@@ -251,9 +276,11 @@ scala-sample/
 │   └── test/src/
 │       └── ModernSyntaxSafetyTest.scala
 └── 20-metaprogramming/
-    └── src/
-        ├── Macros.scala
-        └── Metaprogramming.scala
+    ├── src/
+    │   ├── Macros.scala
+    │   └── Metaprogramming.scala
+    └── test/src/
+        └── MetaprogrammingTest.scala
 ```
 
 ## 學習建議

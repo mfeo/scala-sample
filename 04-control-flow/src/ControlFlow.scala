@@ -3,7 +3,7 @@
  *
  * 學習目標：
  * 1. 掌握 if-else 條件判斷
- * 2. 學習 while 和 do-while 迴圈
+ * 2. 學習 while 迴圈與 Scala 3 對已移除 do-while 語法的替代寫法
  * 3. 使用 for 迴圈和 ranges
  * 4. 引入 match 表達式基礎
  * 5. 認識 for comprehension 的基本概念
@@ -56,13 +56,13 @@ def example1(): Unit =
   println()
 
 /**
- * 範例 2: while 和 do-while 迴圈
+ * 範例 2: while 迴圈與後置條件迴圈
  *
- * while: 先檢查條件，條件為真時執行迴圈體
- * do-while: 先執行迴圈體，再檢查條件（至少執行一次）
+ * Scala 3 已移除 do-while 結構。while 的條件區塊可以先執行迴圈內容，
+ * 再回傳繼續條件，以保留後置條件迴圈的行為。
  */
 def example2(): Unit =
-  println("--- 範例 2: while 和 do-while 迴圈 ---")
+  println("--- 範例 2: while 迴圈與後置條件迴圈 ---")
 
   // while 迴圈：先檢查條件
   println("while 迴圈（計數 1 到 5）:")
@@ -71,8 +71,8 @@ def example2(): Unit =
     println(s"  計數: $count")
     count += 1
 
-  // do-while 迴圈：先執行再檢查（使用大括號語法）
-  println("\ndo-while 迴圈（計數 1 到 3）:")
+  // Scala 3 的後置條件替代寫法：先執行，再判斷是否繼續。
+  println("\n後置條件迴圈（計數 1 到 3）:")
   var num = 1
   while
     println(s"  計數: $num")
