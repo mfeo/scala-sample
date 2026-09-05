@@ -144,15 +144,6 @@ mill clean
 
 Scala 3.7 的 Named Tuples（具名元組）及 Scala 3.8 的 Better Fors（改良 for 推導式）與 `runtimeChecked` 不在本專案的 3.3.8 範圍內。
 
-## Scala 2 遷移重點
-
-- 型別萬用字元由 `_` 改成 `?`。
-- 萬用匯入使用 `*`，重新命名使用 `as`。
-- 可變參數序列使用 `values*` 展開，不再使用 `values: _*`。
-- 方法可自動進行 Eta expansion（轉換成函式值），通常不再需要尾端 `_`。
-- Scala 3 調整了型別推斷、多載解析與隱式解析規則；新程式應優先使用 `given` 與 `using`。
-- Scala 3 已移除真正的 `do-while`、existential type（存在型別）、一般型別投影、程序語法、early initializer（早期初始化器）、package object（套件物件）與 Scala 2 巨集。
-
 ## 與 Go 的對應關係
 
 如果您熟悉 Go 語言，以下對照表可幫助您快速理解：

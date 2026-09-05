@@ -1,5 +1,7 @@
 package metaprogramming
 
+import java.io.{ByteArrayOutputStream, PrintStream}
+import java.nio.charset.StandardCharsets
 import metaprogramming.Macros.*
 import scala.compiletime.testing.typeCheckErrors
 
@@ -33,3 +35,11 @@ class MetaprogrammingTest extends munit.FunSuite:
   test("Mirror derivation counts product fields and sum alternatives"):
     assertEquals(FieldCount[AuditEvent], 3)
     assertEquals(FieldCount[Command], 3)
+
+  test("chapter output contains only current metaprogramming examples"):
+    val output = ByteArrayOutputStream()
+    Console.withOut(PrintStream(output, true, StandardCharsets.UTF_8)):
+      runMetaprogramming()
+    val rendered = output.toString(StandardCharsets.UTF_8)
+    assert(rendered.contains("--- 範例 3: 編譯期操作與引號模式 ---"))
+    assert(!rendered.contains("Scala 2"))

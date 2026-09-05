@@ -5,18 +5,15 @@
  * 1. 理解 Future 的非同步計算模型
  * 2. 掌握 Promise 的手動完成機制
  * 3. 了解 ExecutionContext 的角色
- *
- * 註：Future 與 Promise 是 Scala 2.10 引入的標準庫功能，
- * 在 Scala 3 中 API 基本保持一致，屬於兩者共有的核心特性。
  */
 
 import scala.concurrent.{Future, Promise, Await}
-import scala.concurrent.duration._
+import scala.concurrent.duration.*
+import scala.concurrent.ExecutionContext
 import scala.util.{Success, Failure}
 import java.util.concurrent.Executors
 
-// 需要隱式 ExecutionContext
-import scala.concurrent.ExecutionContext.Implicits.global
+given ExecutionContext = ExecutionContext.global
 
 @main def run(): Unit =
   println("=== 章節 16: 並行程式設計 (Concurrency) ===\n")
@@ -31,7 +28,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
  * 範例 1: Future 基礎
  *
  * Future 代表一個可能尚未完成的計算結果。
- * 這是 Scala 2 和 Scala 3 共有的標準並行模型。
  */
 def example1(): Unit =
   println("--- 範例 1: Future 基礎 ---")
@@ -71,17 +67,16 @@ def example2(): Unit =
 
   def fetchRole(user: String): Future[String] = Future {
     Thread.sleep(100)
-    if (user == "User1") "Admin" else "Guest"
+    if user == "User1" then "Admin" else "Guest"
   }
 
   println("開始鏈式呼叫...")
 
   // 使用 for-comprehension 串接多個非同步操作
-  // 這在 Scala 2 和 Scala 3 中寫法完全相同
-  val resultFuture: Future[String] = for {
+  val resultFuture: Future[String] = for
     user <- fetchUser(1)
     role <- fetchRole(user)
-  } yield s"$user is $role"
+  yield s"$user is $role"
 
   val result = Await.result(resultFuture, 2.seconds)
   println(s"最終結果: $result")

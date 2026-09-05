@@ -2,7 +2,7 @@
  * 章節 18: 架構設計模式 (Architecture Patterns)
  *
  * 學習目標：
- * 1. 學習自身型別 (Self-types) 用於依賴注入 (Scala 2 & 3 Common)
+ * 1. 學習自身型別 (Self-types) 用於依賴注入
  * 2. 掌握 Scala 3 的匯出子句 (Export Clauses) 實現組合優於繼承 (Scala 3 Only)
  *
  * 這些模式有助於設計低耦合、高內聚的系統架構。
@@ -50,13 +50,11 @@ extension (left: Vector2)
 
 /**
  * 範例 1: 自身型別 (Self-types)
- * (Scala 2 & 3 Common)
- *
  * 自身型別允許我們宣告一個 Trait 必須混入 (mix-in) 另一個型別才能被實例化。
  * 這常用於實現「蛋糕模式」(Cake Pattern) 進行依賴注入。
  *
- * 語法：trait A { self: B => ... }
- * 意義：Trait A 說「我需要 B 的功能才能運作，但我不想繼承 B」。
+ * Syntax: `trait A:` followed by an indented `self: B =>` declaration.
+ * This means that trait A requires B's capabilities without extending B.
  */
 def exampleSelfTypes(): Unit =
   println("--- 範例 1: 自身型別 (Self-types) ---")

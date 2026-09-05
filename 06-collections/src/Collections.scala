@@ -292,7 +292,7 @@ def example7(): Unit =
   val withIndex = words.zipWithIndex
   println(s"\n[zipWithIndex] 結合索引: $withIndex")
 
-  // 9. distinctBy: 根據特定條件去重 (Scala 2.13+)
+  // 9. distinctBy: Remove duplicates according to a selected property.
   val duplicates = List("apple", "pie", "apple", "pie", "banana")
   val unique = duplicates.distinct
   // 根據首字母去重

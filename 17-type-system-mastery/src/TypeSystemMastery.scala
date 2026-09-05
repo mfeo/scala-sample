@@ -22,12 +22,19 @@ type NamedRecord = { def name: String }
 def structuralName(record: NamedRecord): String = record.name
 
 // 定義一些用於範例的類別層次結構
-trait Animal { def name: String }
+trait Animal:
+  def name: String
+
 case class Cat(name: String) extends Animal
 case class Dog(name: String) extends Animal
-class Food { override def toString = "食物" }
-class Grass extends Food { override def toString = "草" }
-class Meat extends Food { override def toString = "肉" }
+class Food:
+  override def toString = "食物"
+
+class Grass extends Food:
+  override def toString = "草"
+
+class Meat extends Food:
+  override def toString = "肉"
 
 @main def runTypeSystemMastery(): Unit =
   println("=== 章節 17: 型別系統精通 ===\n")
@@ -51,8 +58,6 @@ class Meat extends Food { override def toString = "肉" }
 
 /**
  * 範例 1: 共變 (Covariance) [+T]
- * (Scala 2 & 3 Common)
- *
  * 共變意味著：如果 Cat 是 Animal 的子類別，那麼 Box[Cat] 也是 Box[Animal] 的子類別。
  * 通常用於「生產者」(Producer) 或「唯讀」的容器。
  *
@@ -79,8 +84,6 @@ def exampleVarianceCovariance(): Unit =
 
 /**
  * 範例 2: 逆變 (Contravariance) [-T]
- * (Scala 2 & 3 Common)
- *
  * 逆變意味著：如果 Cat 是 Animal 的子類別，那麼 Printer[Animal] 是 Printer[Cat] 的子類別。
  * 這聽起來很反直覺，但對於「消費者」(Consumer) 來說是合理的。
  * 如果一個列印機可以列印任何動物 (Printer[Animal])，那它當然可以用來列印貓 (作為 Printer[Cat] 使用)。
@@ -108,8 +111,6 @@ def exampleVarianceContravariance(): Unit =
 
 /**
  * 範例 3: 不變性 (Invariance) [T]
- * (Scala 2 & 3 Common)
- *
  * 不變性意味著：即使 Cat 是 Animal 的子類別，Container[Cat] 與 Container[Animal] 沒有任何繼承關係。
  * 這是 Scala (以及 Java) 中可變集合 (Mutable Collections) 的預設行為。
  * 為了保證寫入安全，可變容器必須是不變的。
@@ -133,8 +134,6 @@ def exampleVarianceInvariance(): Unit =
 
 /**
  * 範例 4: 抽象型別成員 (Abstract Type Members)
- * (Scala 2 & 3 Common)
- *
  * 抽象型別成員是 Scala 提供的一種泛型替代方案。
  * 它將型別定義為 trait 或 class 的成員，而不是參數。
  * 
@@ -146,21 +145,18 @@ def exampleAbstractTypeMembers(): Unit =
   println("\n--- 範例 4: 抽象型別成員 ---")
 
   // 使用泛型 (Generics) 的方式
-  trait EaterGeneric[F <: Food] {
+  trait EaterGeneric[F <: Food]:
     def eat(food: F): Unit
-  }
 
   // 使用抽象型別成員 (Abstract Type Member) 的方式
-  trait Eater {
+  trait Eater:
     type F <: Food // 宣告一個抽象型別成員 F，必須是 Food 的子類別
     def eat(food: F): Unit
-  }
 
   // 實作 Cow，指定 F 為 Grass
-  class Cow extends Eater {
+  class Cow extends Eater:
     type F = Grass
     def eat(food: Grass): Unit = println(s"牛正在吃: $food")
-  }
 
   val cow = new Cow()
   cow.eat(new Grass())

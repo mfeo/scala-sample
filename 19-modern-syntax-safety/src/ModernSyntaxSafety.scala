@@ -79,23 +79,16 @@ def exampleMultiversalEquality(): Unit =
  * 範例 2: 參數解構 (Parameter Untupling)
  * (Scala 3 Only)
  *
- * 當處理 Tuple 的集合時 (例如 Map)，以前需要使用 `case` 來解構。
- * Scala 3 允許自動解構，讓程式碼更簡潔。
+ * Scala 3 can automatically destructure Tuple parameters without a `case` pattern.
  */
 def exampleParameterUntupling(): Unit =
   println("\n--- 範例 2: 參數解構 (Parameter Untupling) ---")
 
   val pairs = List((1, "One"), (2, "Two"), (3, "Three"))
 
-  // Scala 2 風格 (仍可用)
-  val mappedOld = pairs.map { case (num, name) => s"$num -> $name" }
-  
-  // Scala 3 風格：自動參數解構
-  // 注意：不需要 `case`，直接寫 (num, name)
-  val mappedNew = pairs.map( (num, name) => s"$num -> $name" )
+  val mapped = pairs.map((num, name) => s"$num -> $name")
 
-  println("Scala 2 風格: " + mappedOld.mkString(", "))
-  println("Scala 3 風格: " + mappedNew.mkString(", "))
+  println("Parameter untupling: " + mapped.mkString(", "))
 
 /**
  * 範例 3: 行內函式 (Inline)

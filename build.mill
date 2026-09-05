@@ -2,8 +2,8 @@
 
 package build
 
-import mill._
-import mill.scalalib._
+import mill.*
+import mill.scalalib.*
 
 // 基礎模組特徵，包含共同的 Scala 設定
 trait LearningModule extends ScalaModule {

@@ -109,7 +109,7 @@ def example3(): Unit =
   println(s"sum(1, 2, 3, 4, 5) = ${sum(1, 2, 3, 4, 5)}")
   println(s"sum() = ${sum()}")  // 空參數
 
-  // Scala 3 使用 `values*` 展開 Seq，不再使用 Scala 2 的 `values: _*`。
+  // Expand a Seq into individual variable arguments with `values*`.
   val values = Seq(6, 7, 8)
   println(s"sum(values*) = ${sum(values*)}")
 

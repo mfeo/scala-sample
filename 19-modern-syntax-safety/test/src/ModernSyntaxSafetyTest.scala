@@ -1,4 +1,6 @@
 package modern_syntax_safety
+import java.io.{ByteArrayOutputStream, PrintStream}
+import java.nio.charset.StandardCharsets
 import scala.language.strictEquality
 import scala.compiletime.testing.typeCheckErrors
 
@@ -19,6 +21,14 @@ class ModernSyntaxSafetyTest extends munit.FunSuite:
     val list = List((1, "a"))
     val res = list.map( (n, s) => s"$n-$s" )
     assertEquals(res.head, "1-a")
+
+  test("parameter untupling example emits only the current syntax"):
+    val output = ByteArrayOutputStream()
+    Console.withOut(PrintStream(output, true, StandardCharsets.UTF_8)):
+      exampleParameterUntupling()
+    val rendered = output.toString(StandardCharsets.UTF_8)
+    assert(rendered.contains("Parameter untupling: 1 -> One, 2 -> Two, 3 -> Three"))
+    assert(!rendered.contains("Scala 2"))
     
   test("Inline function"):
     inline def add(a: Int, b: Int) = a + b

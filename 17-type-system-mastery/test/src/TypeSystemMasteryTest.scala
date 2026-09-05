@@ -21,14 +21,14 @@ class TypeSystemMasteryTest extends munit.FunSuite:
     assertEquals(lastPrinted, "Mimi")
     
   test("Abstract Type Members"):
-    trait Eater {
+    trait Eater:
       type F <: Food
       def eat(food: F): String
-    }
-    class Cow extends Eater {
+
+    class Cow extends Eater:
       type F = Grass
       def eat(food: Grass) = "Moo"
-    }
+
     assertEquals(new Cow().eat(new Grass), "Moo")
 
   test("kind polymorphism preserves ordinary and constructor kinds"):
